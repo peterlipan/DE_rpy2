@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 ## Input data format
 
-count matrix: 
+**count matrix: **
 
 pandas.DataFrame object. 'id' is a column not index.
 
@@ -39,7 +39,7 @@ pandas.DataFrame object. 'id' is a column not index.
 | gene2 | 26.72   | 39.76   | 41.99   | 61.06   | 54.86   | 57.74   |
 | gene3 | 46.1    | 64.35   | 74.96   | 67.84   | 63.18   | 66.24   |
 
-design matrix:
+**design matrix:**
 
 sample name as index. It's OK not to contain this index as you give the conditions in the same order of the samples in count matrix's columns.
 
@@ -52,7 +52,7 @@ sample name as index. It's OK not to contain this index as you give the conditio
 | sample5 | untreated |
 | sample6 | untreated |
 
-design formula: 
+**design formula: **
 
 string. Default= column name of design matrix.
 
