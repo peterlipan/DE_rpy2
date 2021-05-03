@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 ## Input data format
 
-**count matrix: **
+**count matrix:**
 
 pandas.DataFrame object. 'id' is a column not index.
 
@@ -52,7 +52,7 @@ sample name as index. It's OK not to contain this index as you give the conditio
 | sample5 | untreated |
 | sample6 | untreated |
 
-**design formula: **
+**design formula:**
 
 string. Default= column name of design matrix.
 
