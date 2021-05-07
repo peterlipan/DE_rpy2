@@ -80,9 +80,9 @@ class DE_rpy2:
             'Columns names are needed in design matrix'
 
         if 'float' in count_matrix.drop(gene_column, axis=1):
-            warnings.warn('DESeq2 and edgeR only accept integer counts'
-                          'The values in count matrix are automatically rounded'
-                          'In fact the FPKM/RPKM input is not encouraged by DESeq2 officially')
+            warnings.warn('DESeq2 and edgeR only accept integer counts\n'
+                          'The values in count matrix are automatically rounded\n'
+                          'In fact the FPKM/RPKM input is not encouraged by DESeq2 officially\n')
 
         # parameters used in DESeq2
         self.count_matrix = pandas2ri.py2ri(count_matrix.drop(gene_column, axis=1).astype('int'))
@@ -94,9 +94,9 @@ class DE_rpy2:
         if design_formula is None:
             condition = design_matrix.columns[0]
             if len(design_matrix.columns) > 1:
-                warnings.warn('Multiple conditions are set in design matrix, '
-                              'you\'d better customise the design formula.'
-                              'Here it only considers the first condition')
+                warnings.warn('Multiple conditions are set in design matrix,\n'
+                              'you\'d better customise the design formula.\n'
+                              'Here it only considers the first condition\n')
             self.design_formula = Formula('~ ' + condition)
         else:
             self.design_formula = Formula(design_formula)
@@ -142,9 +142,9 @@ class DE_rpy2:
         # The adjusted p-value in the DESeq2 results
         # may contain NAN
         if any(pd.isna(self.deseq2_result['padj'].values)):
-            warnings.warn('There exist NAN in the adjusted p-value'
+            warnings.warn('There exist NAN in the adjusted p-value\n'
                           'see https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/'
-                          'inst/doc/DESeq2.html#why-are-some-p-values-set-to-na')
+                          'inst/doc/DESeq2.html#why-are-some-p-values-set-to-na\n')
 
         # Reject the H0 hypothesis if p-value < threshold
         labels = [int(x) for x in (self.deseq2_result['padj'] < threshold)]
@@ -242,15 +242,15 @@ class DE_rpy2:
         Say differentially expressed genes.
         """
         if self.limma_label is None:
-            warnings.warn('Seems you haven\'t get limma label'
+            warnings.warn('Seems you haven\'t get limma label\n'
                           'Automatically running limma...')
             self.limma_label = self.limma()
         if self.deseq2_label is None:
-            warnings.warn('Seems you haven\'t get DESeq2 label'
+            warnings.warn('Seems you haven\'t get DESeq2 label\n'
                           'Automatically running DESeq2...')
             self.deseq2_label = self.deseq2()
         if self.edgeR_label is None:
-            warnings.warn('Seems you haven\'t get edgeR label'
+            warnings.warn('Seems you haven\'t get edgeR label\n'
                           'Automatically running edgeR...')
             self.edgeR_label = self.edger()
         # Import the plot package
@@ -278,21 +278,23 @@ class DE_rpy2:
         say label 1, if all 3 tools agreed
         vote: set those genes as differentially expressed,
         say label 1, if all 2 out of the 3 tools agreed
+        union: set those genes as differentially expressed,
+        say label 1, as long as 1 tool agreed
         """
         label = None
-        menu = ['inner', 'vote']
+        menu = ['inner', 'vote', 'union']
         assert method in menu, \
             'Please choose the correct method'
         if self.limma_label is None:
-            warnings.warn('Seems you haven\'t get limma label'
+            warnings.warn('Seems you haven\'t get limma label\n'
                           'Automatically running limma...')
             self.limma_label = self.limma()
         if self.deseq2_label is None:
-            warnings.warn('Seems you haven\'t get DESeq2 label'
+            warnings.warn('Seems you haven\'t get DESeq2 label\n'
                           'Automatically running DESeq2...')
             self.deseq2_label = self.deseq2()
         if self.edgeR_label is None:
-            warnings.warn('Seems you haven\'t get edgeR label'
+            warnings.warn('Seems you haven\'t get edgeR label\n'
                           'Automatically running edgeR...')
             self.edgeR_label = self.edger()
 
@@ -303,6 +305,9 @@ class DE_rpy2:
 
         if method == 'vote':
             label = [int(x) for x in (labels >= 2)]
+
+        if method == 'union':
+            label = [int(x) for x in (labels >= 1)]
 
         self.final_label = pd.DataFrame({self.gene_column: self.gene_ids, 'label': label})
 
