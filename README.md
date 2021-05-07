@@ -42,6 +42,7 @@ pandas.DataFrame object. 'id' is a column not index.
 **design matrix:**
 
 sample name as index. 
+
 It's OK not to contain this index as you give the conditions in the same order of the samples in count matrix's columns.
 
 |         | condition |
