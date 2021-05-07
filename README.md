@@ -60,5 +60,5 @@ string. Default= column name of design matrix.
 '~ condition'
 
 ## example
-see [example]('./example.ipynb')
+see [example](https://github.com/jhonP-Li/DE_rpy2/blob/main/example.ipynb)
 
